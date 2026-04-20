@@ -27,7 +27,11 @@ remotion.config.ts            # Remotion CLI config
 - **Props are typed.** Every composition defines and exports a `FooProps` type. `defaultProps` in `Root.tsx` must satisfy it.
 - **Sizing: 1920x1080 @ 30fps** is the default. Don't change it unless the user asks.
 - **Fonts: system-ui stack.** Don't add `@remotion/google-fonts` unless the user asks — it adds complexity.
-- **Assets:** reference local files via `staticFile('name.mp4')` from `remotion`. Files live in `public/assets/` and are gitignored per-user. Remote URLs also work (`<Img src="https://...">`, `<OffthreadVideo src="https://...">`) and are fine for demos.
+- **Assets:**
+  - `public/brand/` — **tracked in git**. Shared intro/outro clips every teammate uses (`Mark-Animation.mp4`, `Full-Logo.mp4`). Always use these for brand intros/outros unless the user says otherwise.
+  - `public/assets/` — **gitignored**. Personal, per-user media. Each teammate's clips live here on their own machine.
+  - Reference either via `staticFile('brand/Full-Logo.mp4')` or `staticFile('assets/my-clip.mp4')`.
+  - Remote URLs also work (`<Img src="https://...">`, `<OffthreadVideo src="https://...">`).
 
 ## Catalog of worked examples
 
@@ -35,6 +39,8 @@ When a user asks for something similar to one of these, read that file first and
 
 ### Compositions
 
+- **`src/compositions/BrandIntro.tsx`** — plays `public/brand/Mark-Animation.mp4` full-frame. The standard team intro. Pair it with other compositions via `<Sequence>` to make a branded video.
+- **`src/compositions/BrandOutro.tsx`** — plays `public/brand/Full-Logo.mp4` full-frame. The standard team outro.
 - **`src/compositions/TitleCard.tsx`** — centered title + subtitle on a solid background, fades in and out. Teaches: `AbsoluteFill`, `interpolate`, `useCurrentFrame`, `useVideoConfig`.
 - **`src/compositions/ImageReveal.tsx`** — still image with a slow Ken Burns zoom and a caption that springs up from the bottom. Teaches: `Img`, `Sequence`, `spring`, nested absolute-fills for layering.
 - **`src/compositions/VideoWithOverlay.tsx`** — user-supplied video clip with a two-line lower-third (name + title) that slides in from the left. Teaches: `OffthreadVideo`, compositing layers over video, delayed animation via `frame - fps`.
@@ -43,6 +49,38 @@ When a user asks for something similar to one of these, read that file first and
 
 - **`src/transitions/FadeTransition.tsx`** — opacity interp. Takes `direction: 'in' | 'out'` and `durationInFrames`.
 - **`src/transitions/SlideTransition.tsx`** — translate interp. Takes `direction: 'left' | 'right' | 'up' | 'down'` and `durationInFrames`.
+
+## Branded video pattern
+
+Most team videos should open with `BrandIntro` and close with `BrandOutro`. To stitch them around content, use `<Sequence>`:
+
+```tsx
+import { AbsoluteFill, Sequence } from "remotion";
+import { BrandIntro } from "./BrandIntro";
+import { BrandOutro } from "./BrandOutro";
+import { TitleCard } from "./TitleCard";
+
+const INTRO_FRAMES = 90;
+const CONTENT_FRAMES = 150;
+
+export const MyVideo: React.FC = () => (
+  <AbsoluteFill>
+    <Sequence durationInFrames={INTRO_FRAMES}>
+      <BrandIntro />
+    </Sequence>
+    <Sequence from={INTRO_FRAMES} durationInFrames={CONTENT_FRAMES}>
+      <TitleCard title="Hello" subtitle="..." backgroundColor="#000" textColor="#fff" />
+    </Sequence>
+    <Sequence from={INTRO_FRAMES + CONTENT_FRAMES}>
+      <BrandOutro />
+    </Sequence>
+  </AbsoluteFill>
+);
+```
+
+The composition's total `durationInFrames` in `Root.tsx` should equal the sum of the sequence durations.
+
+Note: the hardcoded `durationInFrames={90}` on the `BrandIntro` / `BrandOutro` compositions in `Root.tsx` is a guess. If the clip is longer or shorter, adjust it (you can see the clip length in Studio by scrubbing to the end) or use `calculateMetadata` with `getVideoMetadata` from `@remotion/media-utils` to auto-size.
 
 ## Starting a new video
 

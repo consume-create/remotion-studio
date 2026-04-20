@@ -5,8 +5,11 @@ out/
 .env
 .env.local
 
-# Local media — everyone's assets stay on their own machine.
+# Local media — everyone's personal assets stay on their own machine.
 # See public/assets/README.md.
 public/assets/*
 !public/assets/README.md
 !public/assets/.gitkeep
+
+# public/brand/ is intentionally tracked — shared intro/outro clips
+# every teammate uses. Do NOT add this to gitignore.

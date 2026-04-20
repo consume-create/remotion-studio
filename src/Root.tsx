@@ -3,10 +3,28 @@ import { Composition } from "remotion";
 import { TitleCard } from "./compositions/TitleCard";
 import { ImageReveal } from "./compositions/ImageReveal";
 import { VideoWithOverlay } from "./compositions/VideoWithOverlay";
+import { BrandIntro } from "./compositions/BrandIntro";
+import { BrandOutro } from "./compositions/BrandOutro";
 
 export const Root: React.FC = () => {
   return (
     <>
+      <Composition
+        id="BrandIntro"
+        component={BrandIntro}
+        durationInFrames={90}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="BrandOutro"
+        component={BrandOutro}
+        durationInFrames={90}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
       <Composition
         id="TitleCard"
         component={TitleCard}
