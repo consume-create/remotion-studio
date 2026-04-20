@@ -5,6 +5,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { BRAND } from "../brand";
 
 export type Caption = {
   start: number;
@@ -33,7 +34,7 @@ export const CaptionedClip: React.FC<CaptionedClipProps> = ({
   const active = captions.find((c) => timeSec >= c.start && timeSec < c.end);
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "black" }}>
+    <AbsoluteFill style={{ backgroundColor: BRAND.dark }}>
       <OffthreadVideo
         src={videoUrl}
         style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -44,26 +45,27 @@ export const CaptionedClip: React.FC<CaptionedClipProps> = ({
             alignItems: "center",
             justifyContent: position === "top" ? "flex-start" : "flex-end",
             padding: 120,
-            fontFamily: "system-ui, -apple-system, sans-serif",
+            fontFamily: BRAND.fontStack.sans,
           }}
         >
           <div
             style={{
-              backgroundColor: "rgba(0,0,0,0.75)",
+              backgroundColor: BRAND.darkSoft,
+              backdropFilter: "blur(12px)",
               padding: "28px 44px",
-              borderRadius: 16,
+              borderLeft: `4px solid ${highlightColor}`,
               maxWidth: 900,
-              boxShadow: `0 0 48px ${highlightColor}33`,
             }}
           >
             <p
               style={{
                 color: textColor,
-                fontSize: 64,
-                fontWeight: 800,
+                fontSize: 56,
+                fontWeight: 700,
                 margin: 0,
-                textAlign: "center",
-                lineHeight: 1.2,
+                textAlign: "left",
+                lineHeight: 1.25,
+                letterSpacing: -0.5,
               }}
             >
               {active.text}

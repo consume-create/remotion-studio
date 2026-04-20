@@ -15,6 +15,7 @@ import { BeforeAfter } from "./compositions/BeforeAfter";
 import { TestimonialCard } from "./compositions/TestimonialCard";
 import { CountdownTimer } from "./compositions/CountdownTimer";
 import { ProductFeatureReel } from "./compositions/ProductFeatureReel";
+import { BRAND } from "./brand";
 
 const SOCIAL_WIDTH = 1080;
 const SOCIAL_HEIGHT = 1920;
@@ -37,13 +38,13 @@ const statReelDefaults = {
       format: "percent" as const,
     },
   ],
-  backgroundColor: "#0a0a0a",
-  textColor: "#ffffff",
-  accentColor: "#22c55e",
+  backgroundColor: BRAND.dark,
+  textColor: BRAND.cream,
+  accentColor: BRAND.accent,
 };
 
 const listReelDefaults = {
-  title: "5 ways to grow on social",
+  title: "5 ways to grow on social.",
   items: [
     "Hook in the first 2 seconds",
     "Caption everything — sound-off default",
@@ -51,9 +52,9 @@ const listReelDefaults = {
     "Reply to every comment for 60 minutes",
     "Batch shoot, don't one-off create",
   ],
-  backgroundColor: "#0a0a0a",
-  textColor: "#ffffff",
-  accentColor: "#ffde59",
+  backgroundColor: BRAND.dark,
+  textColor: BRAND.cream,
+  accentColor: BRAND.accent,
 };
 
 export const Root: React.FC = () => {
@@ -124,11 +125,12 @@ export const Root: React.FC = () => {
         width={SOCIAL_WIDTH}
         height={SOCIAL_HEIGHT}
         defaultProps={{
-          text: "Stop scrolling.",
-          accentWord: "scrolling",
-          backgroundColor: "#0a0a0a",
-          textColor: "#ffffff",
-          accentColor: "#ffde59",
+          text: "Stop scrolling. Start making.",
+          accentWord: "making",
+          eyebrow: "A moment with us",
+          backgroundColor: BRAND.dark,
+          textColor: BRAND.cream,
+          accentColor: BRAND.accent,
         }}
       />
       <Composition
@@ -146,8 +148,8 @@ export const Root: React.FC = () => {
             { start: 5, end: 8, text: "Here's the call to action." },
           ],
           position: "bottom" as const,
-          textColor: "#ffffff",
-          highlightColor: "#ffde59",
+          textColor: BRAND.white,
+          highlightColor: BRAND.accent,
         }}
       />
       <Composition
@@ -160,8 +162,8 @@ export const Root: React.FC = () => {
         defaultProps={{
           videoUrl: staticFile("brand/Mark-Animation.mp4"),
           name: "Sam Herwig",
-          title: "Founder, Consume & Create",
-          accentColor: "#ffde59",
+          title: "Founder · Consume & Create",
+          accentColor: BRAND.accent,
         }}
       />
       <Composition
@@ -176,9 +178,9 @@ export const Root: React.FC = () => {
             "The best marketing doesn't feel like marketing. It feels like a conversation.",
           author: "Tom Fishburne",
           authorTitle: "Founder, Marketoonist",
-          backgroundColor: "#0b1020",
-          textColor: "#ffffff",
-          accentColor: "#ffde59",
+          backgroundColor: BRAND.dark,
+          textColor: BRAND.cream,
+          accentColor: BRAND.accent,
         }}
       />
       <Composition
@@ -210,7 +212,7 @@ export const Root: React.FC = () => {
           beforeImage: "https://picsum.photos/id/1040/1080/1920",
           afterImage: "https://picsum.photos/id/1039/1080/1920",
           beforeLabel: "Before",
-          afterLabel: "After",
+          afterLabel: "After — C&C",
         }}
       />
       <Composition
@@ -226,10 +228,9 @@ export const Root: React.FC = () => {
           authorName: "Alex Rivera",
           authorTitle: "Head of Marketing, Northwind",
           avatarUrl: "https://i.pravatar.cc/240?img=12",
-          rating: 5,
-          backgroundColor: "#0b1020",
-          textColor: "#ffffff",
-          accentColor: "#ffde59",
+          backgroundColor: BRAND.dark,
+          textColor: BRAND.cream,
+          accentColor: BRAND.accent,
         }}
       />
       <Composition
@@ -242,9 +243,9 @@ export const Root: React.FC = () => {
         defaultProps={{
           targetDate: "2026-06-01T09:00:00Z",
           label: "Launching in",
-          backgroundColor: "#0a0a0a",
-          textColor: "#ffffff",
-          accentColor: "#ff0054",
+          backgroundColor: BRAND.dark,
+          textColor: BRAND.cream,
+          accentColor: BRAND.accent,
         }}
       />
       <Composition
@@ -276,7 +277,7 @@ export const Root: React.FC = () => {
               position: "bottom-right" as const,
             },
           ],
-          accentColor: "#22c55e",
+          accentColor: BRAND.accent,
         }}
       />
     </>

@@ -5,6 +5,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { BRAND, pad2 } from "../brand";
 
 export type Stat = {
   value: number;
@@ -73,25 +74,61 @@ export const StatReel: React.FC<StatReelProps> = ({
   );
   const opacity = Math.min(fadeIn, fadeOut);
 
+  const indexOpacity = interpolate(localFrame, [0, 14], [0, 1], {
+    extrapolateRight: "clamp",
+  });
+  const ruleWidth = interpolate(localFrame, [10, 34], [0, 180], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+
   return (
     <AbsoluteFill
       style={{
         backgroundColor,
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
-        fontFamily: "system-ui, -apple-system, sans-serif",
+        padding: 120,
+        fontFamily: BRAND.fontStack.sans,
         opacity,
       }}
     >
-      <div style={{ textAlign: "center", padding: 80 }}>
+      <div style={{ textAlign: "left" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 20,
+            opacity: indexOpacity,
+            marginBottom: 40,
+          }}
+        >
+          <p
+            style={{
+              color: accentColor,
+              fontSize: 28,
+              margin: 0,
+              ...BRAND.label,
+            }}
+          >
+            {pad2(activeIndex + 1)} / {pad2(stats.length)}
+          </p>
+          <div
+            style={{
+              width: ruleWidth,
+              height: 2,
+              backgroundColor: accentColor,
+            }}
+          />
+        </div>
         <h1
           style={{
-            color: accentColor,
-            fontSize: 260,
-            fontWeight: 900,
+            color: textColor,
+            fontSize: 280,
+            fontWeight: 800,
             margin: 0,
-            lineHeight: 1,
-            letterSpacing: -8,
+            lineHeight: 0.92,
+            letterSpacing: -10,
           }}
         >
           {stat.prefix ?? ""}
@@ -101,11 +138,12 @@ export const StatReel: React.FC<StatReelProps> = ({
         <p
           style={{
             color: textColor,
-            fontSize: 52,
+            fontSize: 44,
             fontWeight: 500,
-            margin: "40px 0 0 0",
-            opacity: labelOpacity,
-            lineHeight: 1.2,
+            margin: "48px 0 0 0",
+            opacity: labelOpacity * 0.8,
+            lineHeight: 1.25,
+            maxWidth: 760,
           }}
         >
           {stat.label}

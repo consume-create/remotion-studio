@@ -6,6 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { BRAND, pad2 } from "../brand";
 
 export type ListReelProps = {
   title: string;
@@ -44,17 +45,28 @@ export const ListReel: React.FC<ListReelProps> = ({
         backgroundColor,
         padding: 120,
         paddingTop: 220,
-        fontFamily: "system-ui, -apple-system, sans-serif",
+        fontFamily: BRAND.fontStack.sans,
       }}
     >
+      <p
+        style={{
+          color: accentColor,
+          fontSize: 26,
+          margin: "0 0 32px 0",
+          opacity: titleScale,
+          ...BRAND.label,
+        }}
+      >
+        The list — {pad2(items.length)} ideas
+      </p>
       <h1
         style={{
           color: textColor,
-          fontSize: 120,
-          fontWeight: 900,
+          fontSize: 116,
+          fontWeight: 800,
           margin: 0,
-          lineHeight: 1,
-          letterSpacing: -3,
+          lineHeight: 0.98,
+          letterSpacing: -4,
           transform: `scale(${titleScale})`,
           transformOrigin: "left top",
         }}
@@ -63,10 +75,10 @@ export const ListReel: React.FC<ListReelProps> = ({
       </h1>
       <div
         style={{
-          marginTop: 120,
+          marginTop: 100,
           display: "flex",
           flexDirection: "column",
-          gap: 48,
+          gap: 36,
         }}
       >
         {items.map((item, i) => {
@@ -74,45 +86,42 @@ export const ListReel: React.FC<ListReelProps> = ({
           const itemSpring = spring({
             frame: frame - itemStart,
             fps,
-            config: { damping: 14, stiffness: 140 },
+            config: { damping: 18, stiffness: 120 },
           });
-          const x = interpolate(itemSpring, [0, 1], [-140, 0]);
+          const x = interpolate(itemSpring, [0, 1], [-100, 0]);
           const opacity = interpolate(itemSpring, [0, 1], [0, 1]);
           return (
             <div
               key={i}
               style={{
                 display: "flex",
-                alignItems: "center",
-                gap: 40,
+                alignItems: "baseline",
+                gap: 36,
+                paddingBottom: 28,
+                borderBottom: `1px solid ${textColor}22`,
                 transform: `translateX(${x}px)`,
                 opacity,
               }}
             >
-              <div
+              <span
                 style={{
-                  backgroundColor: accentColor,
-                  color: backgroundColor,
-                  width: 96,
-                  height: 96,
-                  borderRadius: 48,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: 52,
-                  fontWeight: 900,
+                  color: accentColor,
+                  fontSize: 42,
+                  fontWeight: 700,
                   flexShrink: 0,
+                  fontVariantNumeric: "tabular-nums",
                 }}
               >
-                {i + 1}
-              </div>
+                {pad2(i + 1)}
+              </span>
               <p
                 style={{
                   color: textColor,
-                  fontSize: 56,
-                  fontWeight: 600,
+                  fontSize: 52,
+                  fontWeight: 500,
                   margin: 0,
                   lineHeight: 1.2,
+                  letterSpacing: -0.5,
                 }}
               >
                 {item}

@@ -7,6 +7,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { BRAND } from "../brand";
 
 export type Annotation = {
   startFrame: number;
@@ -37,7 +38,7 @@ export const ProductFeatureReel: React.FC<ProductFeatureReelProps> = ({
   const { fps } = useVideoConfig();
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "black" }}>
+    <AbsoluteFill style={{ backgroundColor: BRAND.dark }}>
       <OffthreadVideo
         src={videoUrl}
         style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -48,13 +49,14 @@ export const ProductFeatureReel: React.FC<ProductFeatureReelProps> = ({
         const s = spring({
           frame: local,
           fps,
-          config: { damping: 14, stiffness: 160 },
+          config: { damping: 18, stiffness: 130 },
         });
         const exit = interpolate(frame, [a.endFrame - 12, a.endFrame], [1, 0], {
           extrapolateLeft: "clamp",
           extrapolateRight: "clamp",
         });
         const opacity = Math.min(s, exit);
+        const y = interpolate(s, [0, 1], [20, 0]);
         return (
           <div
             key={i}
@@ -62,23 +64,25 @@ export const ProductFeatureReel: React.FC<ProductFeatureReelProps> = ({
               position: "absolute",
               display: "flex",
               flexDirection: "column",
-              fontFamily: "system-ui, -apple-system, sans-serif",
+              fontFamily: BRAND.fontStack.sans,
               opacity,
+              transform: `translateY(${y}px)`,
               ...positionStyles[a.position],
             }}
           >
             <div
               style={{
-                backgroundColor: "#fff",
-                color: "#000",
-                padding: "28px 40px",
-                borderRadius: 20,
-                fontSize: 46,
-                fontWeight: 800,
-                borderBottom: `8px solid ${accentColor}`,
-                maxWidth: 720,
-                lineHeight: 1.2,
-                boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
+                backgroundColor: BRAND.darkSoft,
+                backdropFilter: "blur(16px)",
+                color: BRAND.white,
+                padding: "24px 32px",
+                borderLeft: `3px solid ${accentColor}`,
+                fontSize: 38,
+                fontWeight: 600,
+                maxWidth: 680,
+                lineHeight: 1.25,
+                letterSpacing: -0.5,
+                boxShadow: "0 20px 40px rgba(0,0,0,0.35)",
               }}
             >
               {a.text}

@@ -6,6 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { BRAND } from "../brand";
 
 export type BeforeAfterProps = {
   beforeImage: string;
@@ -33,19 +34,17 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
   const labelStyle: React.CSSProperties = {
     position: "absolute",
     top: 140,
-    color: "#fff",
-    fontSize: 52,
-    fontWeight: 800,
-    padding: "20px 40px",
-    backgroundColor: "rgba(0,0,0,0.7)",
-    borderRadius: 12,
-    fontFamily: "system-ui, -apple-system, sans-serif",
-    letterSpacing: 3,
-    textTransform: "uppercase",
+    color: BRAND.white,
+    fontSize: 32,
+    padding: "16px 28px",
+    backgroundColor: BRAND.darkSoft,
+    backdropFilter: "blur(12px)",
+    fontFamily: BRAND.fontStack.sans,
+    ...BRAND.label,
   };
 
   return (
-    <AbsoluteFill style={{ backgroundColor: "black" }}>
+    <AbsoluteFill style={{ backgroundColor: BRAND.dark }}>
       <AbsoluteFill>
         <Img
           src={beforeImage}
@@ -64,10 +63,10 @@ export const BeforeAfter: React.FC<BeforeAfterProps> = ({
           left: `${wipe}%`,
           top: 0,
           bottom: 0,
-          width: 6,
-          backgroundColor: "#fff",
+          width: 3,
+          backgroundColor: BRAND.white,
           boxShadow: "0 0 32px rgba(0,0,0,0.6)",
-          transform: "translateX(-3px)",
+          transform: "translateX(-1.5px)",
         }}
       />
       <div style={{ ...labelStyle, left: 80 }}>{beforeLabel}</div>

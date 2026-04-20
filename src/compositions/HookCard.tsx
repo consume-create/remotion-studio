@@ -6,10 +6,12 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { BRAND } from "../brand";
 
 export type HookCardProps = {
   text: string;
   accentWord: string;
+  eyebrow: string;
   backgroundColor: string;
   textColor: string;
   accentColor: string;
@@ -18,6 +20,7 @@ export type HookCardProps = {
 export const HookCard: React.FC<HookCardProps> = ({
   text,
   accentWord,
+  eyebrow,
   backgroundColor,
   textColor,
   accentColor,
@@ -25,12 +28,16 @@ export const HookCard: React.FC<HookCardProps> = ({
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const scale = spring({
+  const enter = spring({
     frame,
     fps,
-    config: { damping: 10, stiffness: 180 },
+    config: { damping: 18, stiffness: 100 },
   });
-  const opacity = interpolate(frame, [0, 6], [0, 1], {
+  const y = interpolate(enter, [0, 1], [40, 0]);
+  const eyebrowOpacity = interpolate(frame, [0, 10], [0, 1], {
+    extrapolateRight: "clamp",
+  });
+  const headlineOpacity = interpolate(frame, [8, 24], [0, 1], {
     extrapolateRight: "clamp",
   });
 
@@ -40,7 +47,9 @@ export const HookCard: React.FC<HookCardProps> = ({
     return (
       <>
         {parts[0]}
-        <span style={{ color: accentColor }}>{accentWord}</span>
+        <span style={{ color: accentColor, fontStyle: "italic" }}>
+          {accentWord}
+        </span>
         {parts.slice(1).join(accentWord)}
       </>
     );
@@ -50,23 +59,50 @@ export const HookCard: React.FC<HookCardProps> = ({
     <AbsoluteFill
       style={{
         backgroundColor,
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
-        padding: 80,
-        opacity,
-        fontFamily: "system-ui, -apple-system, sans-serif",
+        padding: 100,
+        fontFamily: BRAND.fontStack.sans,
       }}
     >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 20,
+          opacity: eyebrowOpacity,
+          marginBottom: 48,
+        }}
+      >
+        <div
+          style={{
+            width: 64,
+            height: 2,
+            backgroundColor: accentColor,
+          }}
+        />
+        <p
+          style={{
+            color: accentColor,
+            fontSize: 28,
+            margin: 0,
+            ...BRAND.label,
+          }}
+        >
+          {eyebrow}
+        </p>
+      </div>
       <h1
         style={{
           color: textColor,
-          fontSize: 180,
-          fontWeight: 900,
+          fontSize: 172,
+          fontWeight: 800,
           margin: 0,
-          textAlign: "center",
-          lineHeight: 1.05,
-          letterSpacing: -4,
-          transform: `scale(${scale})`,
+          textAlign: "left",
+          lineHeight: 0.98,
+          letterSpacing: -6,
+          opacity: headlineOpacity,
+          transform: `translateY(${y}px)`,
         }}
       >
         {renderText()}

@@ -2,10 +2,10 @@ import React from "react";
 import {
   AbsoluteFill,
   interpolate,
-  spring,
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { BRAND } from "../brand";
 
 export type QuoteCardProps = {
   quote: string;
@@ -27,18 +27,20 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
 
-  const markScale = spring({
-    frame,
-    fps,
-    config: { damping: 10, stiffness: 180 },
-  });
-  const quoteOpacity = interpolate(frame, [10, 30], [0, 1], {
+  const markOpacity = interpolate(frame, [0, 12], [0, 1], {
     extrapolateRight: "clamp",
   });
-  const quoteY = interpolate(frame, [10, 30], [40, 0], {
+  const quoteOpacity = interpolate(frame, [8, 28], [0, 1], {
     extrapolateRight: "clamp",
   });
-  const authorOpacity = interpolate(frame, [40, 60], [0, 1], {
+  const quoteY = interpolate(frame, [8, 28], [30, 0], {
+    extrapolateRight: "clamp",
+  });
+  const ruleWidth = interpolate(frame, [34, 58], [0, 140], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  const authorOpacity = interpolate(frame, [42, 62], [0, 1], {
     extrapolateRight: "clamp",
   });
 
@@ -49,18 +51,20 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({
         padding: 120,
         justifyContent: "center",
         alignItems: "flex-start",
-        fontFamily: "system-ui, -apple-system, sans-serif",
+        fontFamily: BRAND.fontStack.sans,
       }}
     >
       <div
         style={{
           color: accentColor,
-          fontSize: 400,
-          fontWeight: 900,
-          lineHeight: 0.6,
+          fontSize: 240,
+          fontFamily: BRAND.fontStack.serif,
+          fontStyle: "italic",
+          fontWeight: 400,
+          lineHeight: 0.5,
           marginBottom: 40,
-          transform: `scale(${markScale})`,
-          transformOrigin: "left top",
+          marginLeft: -20,
+          opacity: markOpacity,
         }}
       >
         &ldquo;
@@ -68,8 +72,10 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({
       <p
         style={{
           color: textColor,
-          fontSize: 80,
-          fontWeight: 700,
+          fontSize: 72,
+          fontFamily: BRAND.fontStack.serif,
+          fontWeight: 400,
+          fontStyle: "italic",
           margin: 0,
           lineHeight: 1.2,
           opacity: quoteOpacity,
@@ -79,24 +85,34 @@ export const QuoteCard: React.FC<QuoteCardProps> = ({
       >
         {quote}
       </p>
-      <div style={{ opacity: authorOpacity, marginTop: 60 }}>
-        <p
+      <div style={{ marginTop: 80, opacity: authorOpacity }}>
+        <div
           style={{
-            color: accentColor,
-            fontSize: 40,
-            fontWeight: 700,
-            margin: 0,
+            width: ruleWidth,
+            height: 2,
+            backgroundColor: accentColor,
+            marginBottom: 24,
           }}
-        >
-          — {author}
-        </p>
+        />
         <p
           style={{
             color: textColor,
             fontSize: 32,
+            margin: 0,
+            ...BRAND.label,
+            fontWeight: 700,
+          }}
+        >
+          {author}
+        </p>
+        <p
+          style={{
+            color: textColor,
+            fontSize: 26,
             fontWeight: 400,
-            margin: "8px 0 0 0",
-            opacity: 0.7,
+            margin: "10px 0 0 0",
+            opacity: 0.65,
+            letterSpacing: 2,
           }}
         >
           {authorTitle}

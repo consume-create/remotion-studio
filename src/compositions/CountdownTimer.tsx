@@ -6,6 +6,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { BRAND, pad2 } from "../brand";
 
 export type CountdownTimerProps = {
   targetDate: string;
@@ -14,8 +15,6 @@ export type CountdownTimerProps = {
   textColor: string;
   accentColor: string;
 };
-
-const pad = (n: number) => String(n).padStart(2, "0");
 
 const getDelta = (targetDate: string) => {
   const target = new Date(targetDate).getTime();
@@ -55,69 +54,90 @@ export const CountdownTimer: React.FC<CountdownTimerProps> = ({
     <AbsoluteFill
       style={{
         backgroundColor,
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
-        fontFamily: "system-ui, -apple-system, sans-serif",
+        padding: 100,
+        fontFamily: BRAND.fontStack.sans,
       }}
     >
       <p
         style={{
-          color: textColor,
-          fontSize: 48,
-          fontWeight: 600,
+          color: accentColor,
+          fontSize: 28,
           margin: 0,
-          letterSpacing: 6,
-          textTransform: "uppercase",
           transform: `translateY(${labelY}px)`,
           opacity: labelSpring,
+          ...BRAND.label,
         }}
       >
         {label}
       </p>
-      <div style={{ display: "flex", gap: 24, marginTop: 80 }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          gap: 0,
+          marginTop: 48,
+        }}
+      >
         {cells.map((c, i) => {
           const s = spring({
             frame: frame - c.delay,
             fps,
-            config: { damping: 12, stiffness: 160 },
+            config: { damping: 18, stiffness: 140 },
           });
+          const y = interpolate(s, [0, 1], [40, 0]);
           return (
-            <div
-              key={i}
-              style={{
-                backgroundColor: `${accentColor}22`,
-                border: `3px solid ${accentColor}`,
-                borderRadius: 24,
-                padding: "40px 20px",
-                minWidth: 240,
-                textAlign: "center",
-                transform: `scale(${s})`,
-              }}
-            >
-              <p
+            <React.Fragment key={i}>
+              <div
                 style={{
-                  color: accentColor,
-                  fontSize: 180,
-                  fontWeight: 900,
-                  margin: 0,
-                  lineHeight: 1,
-                  letterSpacing: -4,
+                  textAlign: "left",
+                  transform: `translateY(${y}px)`,
+                  opacity: s,
+                  paddingRight: i < cells.length - 1 ? 40 : 0,
                 }}
               >
-                {pad(c.v)}
-              </p>
-              <p
-                style={{
-                  color: textColor,
-                  fontSize: 28,
-                  fontWeight: 600,
-                  margin: "12px 0 0 0",
-                  letterSpacing: 4,
-                }}
-              >
-                {c.u}
-              </p>
-            </div>
+                <p
+                  style={{
+                    color: textColor,
+                    fontSize: 220,
+                    fontWeight: 800,
+                    margin: 0,
+                    lineHeight: 0.92,
+                    letterSpacing: -8,
+                    fontVariantNumeric: "tabular-nums",
+                  }}
+                >
+                  {pad2(c.v)}
+                </p>
+                <p
+                  style={{
+                    color: textColor,
+                    fontSize: 22,
+                    margin: "16px 0 0 0",
+                    opacity: 0.7,
+                    ...BRAND.label,
+                  }}
+                >
+                  {c.u}
+                </p>
+              </div>
+              {i < cells.length - 1 && (
+                <span
+                  style={{
+                    color: accentColor,
+                    fontSize: 160,
+                    fontWeight: 700,
+                    lineHeight: 1,
+                    opacity: s * 0.7,
+                    alignSelf: "flex-start",
+                    margin: "0 20px",
+                  }}
+                >
+                  :
+                </span>
+              )}
+            </React.Fragment>
           );
         })}
       </div>

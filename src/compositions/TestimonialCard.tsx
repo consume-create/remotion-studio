@@ -7,13 +7,13 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from "remotion";
+import { BRAND } from "../brand";
 
 export type TestimonialCardProps = {
   quote: string;
   authorName: string;
   authorTitle: string;
   avatarUrl: string;
-  rating: number;
   backgroundColor: string;
   textColor: string;
   accentColor: string;
@@ -24,7 +24,6 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
   authorName,
   authorTitle,
   avatarUrl,
-  rating,
   backgroundColor,
   textColor,
   accentColor,
@@ -34,10 +33,14 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
   const cardSpring = spring({
     frame,
     fps,
-    config: { damping: 14, stiffness: 120 },
+    config: { damping: 18, stiffness: 110 },
   });
-  const y = interpolate(cardSpring, [0, 1], [80, 0]);
-  const starOpacity = interpolate(frame, [20, 50], [0, 1], {
+  const y = interpolate(cardSpring, [0, 1], [60, 0]);
+  const authorOpacity = interpolate(frame, [30, 55], [0, 1], {
+    extrapolateRight: "clamp",
+    extrapolateLeft: "clamp",
+  });
+  const ruleWidth = interpolate(frame, [28, 52], [0, 120], {
     extrapolateRight: "clamp",
     extrapolateLeft: "clamp",
   });
@@ -47,49 +50,37 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
       style={{
         backgroundColor,
         padding: 100,
-        alignItems: "center",
+        alignItems: "flex-start",
         justifyContent: "center",
-        fontFamily: "system-ui, -apple-system, sans-serif",
+        fontFamily: BRAND.fontStack.sans,
       }}
     >
       <div
         style={{
-          backgroundColor: "rgba(255,255,255,0.06)",
-          borderRadius: 32,
-          padding: 80,
           transform: `translateY(${y}px)`,
           opacity: cardSpring,
-          border: `2px solid ${accentColor}33`,
-          maxWidth: 880,
+          maxWidth: 900,
         }}
       >
-        <div
+        <p
           style={{
-            display: "flex",
-            gap: 8,
-            marginBottom: 32,
-            opacity: starOpacity,
+            color: accentColor,
+            fontSize: 24,
+            margin: "0 0 40px 0",
+            ...BRAND.label,
           }}
         >
-          {Array.from({ length: 5 }).map((_, i) => (
-            <span
-              key={i}
-              style={{
-                fontSize: 56,
-                color: i < rating ? accentColor : `${accentColor}33`,
-              }}
-            >
-              ★
-            </span>
-          ))}
-        </div>
+          Client note
+        </p>
         <p
           style={{
             color: textColor,
-            fontSize: 56,
-            fontWeight: 500,
+            fontSize: 60,
+            fontFamily: BRAND.fontStack.serif,
+            fontStyle: "italic",
+            fontWeight: 400,
             margin: 0,
-            lineHeight: 1.3,
+            lineHeight: 1.25,
             letterSpacing: -0.5,
           }}
         >
@@ -97,39 +88,49 @@ export const TestimonialCard: React.FC<TestimonialCardProps> = ({
         </p>
         <div
           style={{
+            width: ruleWidth,
+            height: 2,
+            backgroundColor: accentColor,
+            margin: "60px 0 36px 0",
+          }}
+        />
+        <div
+          style={{
             display: "flex",
             alignItems: "center",
-            gap: 32,
-            marginTop: 60,
+            gap: 28,
+            opacity: authorOpacity,
           }}
         >
           <Img
             src={avatarUrl}
             style={{
-              width: 120,
-              height: 120,
-              borderRadius: 60,
+              width: 104,
+              height: 104,
               objectFit: "cover",
-              border: `4px solid ${accentColor}`,
+              borderRadius: 52,
             }}
           />
           <div>
             <p
               style={{
                 color: textColor,
-                fontSize: 44,
-                fontWeight: 700,
+                fontSize: 32,
                 margin: 0,
+                ...BRAND.label,
+                fontWeight: 700,
               }}
             >
               {authorName}
             </p>
             <p
               style={{
-                color: accentColor,
-                fontSize: 32,
-                fontWeight: 500,
-                margin: "4px 0 0 0",
+                color: textColor,
+                fontSize: 26,
+                fontWeight: 400,
+                margin: "10px 0 0 0",
+                opacity: 0.6,
+                letterSpacing: 2,
               }}
             >
               {authorTitle}
