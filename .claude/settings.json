@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(npm start)",
+      "Bash(npm start:*)",
+      "Bash(npx remotion render:*)",
+      "Bash(npx remotion compositions:*)",
+      "Bash(npx remotion versions)",
+      "Bash(git status)",
+      "Bash(git status:*)",
+      "Bash(git diff)",
+      "Bash(git diff:*)",
+      "Bash(git log)",
+      "Bash(git log:*)",
+      "Bash(git show)",
+      "Bash(git show:*)",
+      "Bash(git branch)",
+      "Bash(git branch:*)",
+      "Bash(git checkout -b:*)",
+      "Bash(git checkout main)",
+      "Bash(git add)",
+      "Bash(git add:*)",
+      "Bash(git commit -m:*)",
+      "Bash(git config user.name)",
+      "Bash(git config user.email)",
+      "Bash(ls)",
+      "Bash(ls:*)",
+      "Bash(pwd)",
+      "Bash(tsc --noEmit)"
+    ]
+  }
+}
