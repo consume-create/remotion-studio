@@ -17,7 +17,8 @@ src/
   compositions/               # one file per composition
   transitions/                # reusable transition wrappers
 public/
-  assets/                     # local-only media (gitignored)
+  brand/                      # shared intro/outro clips (tracked)
+  assets/                     # local-only personal media (gitignored)
 remotion.config.ts            # Remotion CLI config
 ```
 

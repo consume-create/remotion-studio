@@ -1,6 +1,6 @@
-# remotion-videos
+# remotion-studio
 
-A shared Remotion project for the team. Clone it, branch it, and use Claude Code to build short videos quickly.
+A shared Remotion project for the Consume and Create team. Clone it, branch it, and use Claude Code to build short videos quickly.
 
 ## What this is
 
@@ -9,8 +9,8 @@ A learning repo that doubles as a real tool. You make a branch, work with Claude
 ## Quick start
 
 ```bash
-git clone <repo-url> remotion-videos
-cd remotion-videos
+git clone git@github.com:consume-create/remotion-studio.git
+cd remotion-studio
 npm install
 npm start
 ```
