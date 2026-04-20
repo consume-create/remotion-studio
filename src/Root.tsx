@@ -5,6 +5,10 @@ import { ImageReveal } from "./compositions/ImageReveal";
 import { VideoWithOverlay } from "./compositions/VideoWithOverlay";
 import { BrandIntro } from "./compositions/BrandIntro";
 import { BrandOutro } from "./compositions/BrandOutro";
+import {
+  KirinSweepstakes,
+  KIRIN_SWEEPSTAKES_FRAMES,
+} from "./compositions/KirinSweepstakes";
 
 export const Root: React.FC = () => {
   return (
@@ -63,6 +67,14 @@ export const Root: React.FC = () => {
           name: "Sam Example",
           title: "Founder, Videos Team",
         }}
+      />
+      <Composition
+        id="KirinSweepstakes"
+        component={KirinSweepstakes}
+        durationInFrames={KIRIN_SWEEPSTAKES_FRAMES}
+        fps={30}
+        width={1080}
+        height={1920}
       />
     </>
   );
