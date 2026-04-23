@@ -15,6 +15,10 @@ import { BeforeAfter } from "./compositions/BeforeAfter";
 import { TestimonialCard } from "./compositions/TestimonialCard";
 import { CountdownTimer } from "./compositions/CountdownTimer";
 import { ProductFeatureReel } from "./compositions/ProductFeatureReel";
+import {
+  PowerPackDemo,
+  POWER_PACK_DEMO_DURATION,
+} from "./compositions/PowerPackDemo";
 import { BRAND } from "./brand";
 
 const SOCIAL_WIDTH = 1080;
@@ -246,6 +250,19 @@ export const Root: React.FC = () => {
           backgroundColor: BRAND.dark,
           textColor: BRAND.cream,
           accentColor: BRAND.accent,
+        }}
+      />
+      <Composition
+        id="PowerPackDemo"
+        component={PowerPackDemo}
+        durationInFrames={POWER_PACK_DEMO_DURATION}
+        fps={30}
+        width={1920}
+        height={1080}
+        defaultProps={{
+          backgroundColor: BRAND.dark,
+          accentColor: BRAND.accent,
+          textColor: BRAND.cream,
         }}
       />
       <Composition
